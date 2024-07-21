@@ -1,9 +1,36 @@
-const userresolvers = {
+import { User } from "../models/usermodel.js";
+import jwt from "jsonwebtoken";
+export const userresolvers = {
   Mutation: {
-    signup: async (parent, args, contexgt) => {
+    signup: async (_, { input }, contextValue) => {
       try {
+        const maker = await contextValue.User.create(input);
+        return maker;
       } catch (err) {
-        return err.message;
+        throw new Error(err.message);
+      }
+    },
+    logout: async (_, args, contextValue) => {
+      await contextValue.outer();
+      return true;
+    },
+    login: async (_, { input }, contextValue) => {
+      try {
+        let token;
+        const finder = await contextValue.User.findOne({ email: input.email });
+        if (!finder) {
+          throw new Error("this user is not exist");
+        }
+        if (finder && (await finder.find(input.password))) {
+          token = await jwt.sign({ id: finder._id }, process.env.SECRET, {
+            expiresIn: "7000d",
+          });
+        }
+        contextValue.setter(token);
+
+        return finder;
+      } catch (err) {
+        throw new Error(err.message);
       }
     },
   },
