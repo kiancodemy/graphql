@@ -1,4 +1,4 @@
-export const typeDefs = `#graphql
+export const usertypeDefs = `#graphql
 
 type Query{
     name:String
@@ -29,4 +29,5 @@ type Mutation{
     signup(input:signing!):User
     login(input:loging!):User
     logout:Boolean!
+    verify:Boolean
 }`;

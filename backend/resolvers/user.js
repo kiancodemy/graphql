@@ -1,4 +1,3 @@
-import { User } from "../models/usermodel.js";
 import jwt from "jsonwebtoken";
 export const userresolvers = {
   Mutation: {
@@ -13,6 +12,14 @@ export const userresolvers = {
     logout: async (_, args, contextValue) => {
       await contextValue.outer();
       return true;
+    },
+    verify: async (_, args, contextValue) => {
+      try {
+        await contextValue.verfiy();
+        return true;
+      } catch (err) {
+        throw new Error(err.message);
+      }
     },
     login: async (_, { input }, contextValue) => {
       try {

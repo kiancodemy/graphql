@@ -1,12 +1,15 @@
 import express from "express";
+import { Transaction } from "./models/transaction.js";
 import cookieparser from "cookie-parser";
 import { ApolloServer } from "@apollo/server";
 import { User } from "./models/usermodel.js";
+import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 import { connecter } from "./connect/connect.js";
 import dotenv from "dotenv";
+import { LoginVerify } from "./function/verify.js";
 
-import { typeDefs } from "./types/user.js";
-import { userresolvers as resolvers } from "./resolvers/user.js";
+import mergedTypeDefs from "./types/imdex.js";
+import mergedResolvers from "./resolvers/index.js";
 import { expressMiddleware } from "@apollo/server/express4";
 import http from "http";
 dotenv.config();
@@ -17,8 +20,10 @@ const app = express();
 connecter();
 const httpServer = http.createServer(app);
 const server = new ApolloServer({
-  typeDefs,
-  resolvers,
+  typeDefs: mergedTypeDefs,
+
+  resolvers: mergedResolvers,
+  plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 });
 await server.start();
 app.use(
@@ -26,10 +31,15 @@ app.use(
   cors({ origin: "localhost:3000", credentials: "true" }),
   express.json(),
   cookieparser(),
+
   expressMiddleware(server, {
     context: async ({ req, res }) => ({
-      name: "kian",
       User: User,
+      Transaction: Transaction,
+      verfiy: async () => {
+        LoginVerify(req, res);
+      },
+
       setter: (token) =>
         res.cookie("jwt", token, {
           httpOnly: true,
@@ -46,4 +56,4 @@ app.use(
 );
 await new Promise((resolve) => httpServer.listen({ port: 4000 }, resolve));
 
-console.log(`🚀 Server ready at http://localhost:4000/`);
+console.log(`🚀 Server ready at 4000`);
