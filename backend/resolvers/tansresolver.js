@@ -8,6 +8,9 @@ export const transresolvers = {
         throw new Error("Error fetching transactions");
       }
     },
+    show: () => {
+      return "kian";
+    },
     getTransactionById: async (_, { id }) => {
       try {
         return await Transaction.findById(id);
@@ -41,5 +44,3 @@ export const transresolvers = {
     },
   },
 };
-
-

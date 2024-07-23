@@ -49,7 +49,9 @@ export default function signin() {
   return (
     <div className="flex bg-black min-h-[100vh] flex-col justify-center">
       <div className="container mx-auto bg-[#eee]  rounded-m px-5 rounded-md py-6 gap-y-6 lg:max-w-[400px]  max-w-[340px] flex flex-col">
-        <h1 className="capitalize text-2xl text-center lg:text-4xl">welcome</h1>
+        <h1 className="capitalize text-2xl text-center font-semibold lg:text-4xl">
+          sign up
+        </h1>
         <div className="flex flex-col gap-y-2">
           <p className="capitalize ">name</p>
           <input
@@ -80,7 +82,7 @@ export default function signin() {
             onChange={(e) => {
               setpass(e.target.value);
             }}
-            type="text"
+            type="password"
           />
         </div>
         <div className="flex flex-col gap-y-2">
@@ -91,7 +93,7 @@ export default function signin() {
             onChange={(e) => {
               setconfrim(e.target.value);
             }}
-            type="text"
+            type="password"
           />
         </div>
         <div className="flex justify-between">
@@ -102,11 +104,17 @@ export default function signin() {
           >
             <div className="flex gap-x-2">
               <h1 className="capitalize">male</h1>
-              <input checked={gender === "male"} value="male" type="radio" />
+              <input
+                readOnly
+                checked={gender === "male"}
+                value="male"
+                type="radio"
+              />
             </div>
             <div className="flex gap-x-2">
               <h1 className="capitalize">female</h1>
               <input
+                readOnly
                 checked={gender === "female"}
                 value="female"
                 type="radio"

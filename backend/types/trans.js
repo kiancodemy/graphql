@@ -13,6 +13,7 @@ export const transtypeDefs = `#graphql
   type Query {
     getTransactions: [Transaction]
     getTransactionById(id: ID!): Transaction
+    show:String
   }
 
   input TransactionInput {
@@ -31,5 +32,3 @@ export const transtypeDefs = `#graphql
     deleteTransaction(id: ID!): Transaction
   }
 `;
-
-module.exports = typeDefs;

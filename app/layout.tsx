@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { ApolloWrapper } from "@/app/Apolowraper";
 import "./globals.css";
 import ToastProvider from "./Toastify";
 
@@ -16,7 +16,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="min-h-[100vh] flex flex-col">
-        <ToastProvider>{children}</ToastProvider>
+        <ApolloWrapper>
+          <ToastProvider>{children}</ToastProvider>
+        </ApolloWrapper>
       </body>
     </html>
   );
