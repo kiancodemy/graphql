@@ -28,14 +28,19 @@ export const userresolvers = {
         if (!finder) {
           throw new Error("this user is not exist");
         }
-        if (finder && (await finder.find(input.password))) {
+        const get = await finder.finding(input.password);
+        if (!get) {
+          throw new Error("you password is wrong");
+        }
+        if (finder && get) {
           token = await jwt.sign({ id: finder._id }, process.env.SECRET, {
             expiresIn: "7000d",
           });
         }
-        contextValue.setter(token);
-
-        return finder;
+        if (token) {
+          await contextValue.setter(token);
+          return finder;
+        }
       } catch (err) {
         throw new Error(err.message);
       }

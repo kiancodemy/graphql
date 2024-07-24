@@ -40,7 +40,7 @@ userSchema.pre("save", function (next) {
   });
 });
 
-userSchema.method("find", async function (pass) {
+userSchema.method("finding", async function (pass) {
   return await bcrypt.compare(pass, this.password);
 });
 

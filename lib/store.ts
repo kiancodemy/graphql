@@ -1,20 +1,12 @@
 "use client";
 import { create } from "zustand";
-interface User {
-  name: String;
-  email: string;
-}
-
-interface BearState {
-  bears: unknown;
-  adduser: (user: User) => void;
-  removeuser: () => void;
-}
+import { User } from "@/type";
+import { BearState } from "@/type";
 
 export const useBearStore = create<BearState>()((set) => ({
   bears: localStorage.getItem("info")
     ? JSON.parse(localStorage.getItem("info") as string)
-    : 77,
+    : null,
   adduser: (users: User) =>
     set(
       () => (

@@ -3,13 +3,29 @@ import React from "react";
 import { useState } from "react";
 import { toast, Zoom } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import { protect } from "@/lib/functions/protect";
+import { gql, useMutation } from "@apollo/client";
+import { useRouter } from "next/navigation";
+const signer = gql`
+  mutation Signup($info: signing!) {
+    signup(input: $info) {
+      _id
+      name
+      email
+    }
+  }
+`;
 export default function signin() {
   const [name, setname] = useState<string>("");
   const [email, setemail] = useState<string>("");
   const [pass, setpass] = useState<string>("");
   const [confrim, setconfrim] = useState<string>("");
   const [gender, setgender] = useState<string>("");
+
+  const router = useRouter();
+
+  const [add, { data }] = useMutation(signer);
+  protect();
 
   const submit = async () => {
     try {
@@ -22,6 +38,7 @@ export default function signin() {
             autoClose: 1500,
           }
         );
+
         setname("");
         setemail("");
         setpass("");
@@ -43,8 +60,36 @@ export default function signin() {
         setpass("");
         setgender("");
         setconfrim("");
+      } else {
+        await add({
+          variables: { info: { name, email, password: pass, gender } },
+        });
+        toast.success(<span className="capitalize">signup successfully</span>, {
+          position: "top-right",
+          transition: Zoom,
+          autoClose: 1500,
+        });
+
+        setname("");
+        setemail("");
+        setpass("");
+        setgender("");
+        setconfrim("");
+        console.log(data);
+        router.push("/login");
       }
-    } catch (err) {}
+    } catch (err) {
+      toast.error(<span className="capitalize">unsuccesfull try again!</span>, {
+        position: "top-right",
+        transition: Zoom,
+        autoClose: 1500,
+      });
+      setname("");
+      setemail("");
+      setpass("");
+      setgender("");
+      setconfrim("");
+    }
   };
   return (
     <div className="flex bg-black min-h-[100vh] flex-col justify-center">

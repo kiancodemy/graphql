@@ -1,5 +1,6 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
+import { gql, useMutation } from "@apollo/client";
 
 import { FaAngleRight } from "react-icons/fa";
 import { useState } from "react";
@@ -7,16 +8,39 @@ import { useBearStore } from "@/lib/store";
 import { toast, Zoom } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { protect } from "@/lib/functions/protect";
 
 export default function login() {
-  const [email, setemail] = useState<string>("");
-  const [pass, setpass] = useState<string>("");
-  const [confrim, setconfrim] = useState<string>("");
-  const bears = useBearStore((state) => state.bears);
-  const adder = useBearStore((state) => state.adduser);
-  const remove = useBearStore((state) => state.removeuser);
+  const [email, setemail] = useState("");
+  const [pass, setpass] = useState("");
+  const [confrim, setconfrim] = useState("");
 
-  console.log(bears);
+  const adder = useBearStore((state) => state.adduser);
+  const router = useRouter();
+  protect();
+  const login = gql`
+    mutation log($info: loging!) {
+      login(input: $info) {
+        _id
+        name
+        email
+      }
+    }
+  `;
+  const [logedin, { data, error }] = useMutation(login);
+
+  useEffect(() => {
+    if (error) {
+      toast.error(<span className="capitalize">{error.message}</span>, {
+        position: "top-right",
+        transition: Zoom,
+        autoClose: 1500,
+      });
+    }
+  }, [error]);
+
+  //graphql setup
 
   const submit = async () => {
     try {
@@ -33,6 +57,7 @@ export default function login() {
         setemail("");
         setpass("");
         setconfrim("");
+        return;
       }
       if (confrim !== pass) {
         toast.error(
@@ -50,8 +75,28 @@ export default function login() {
         setpass("");
 
         setconfrim("");
+        return;
+      } else {
+        const { data } = await logedin({
+          variables: { info: { email, password: pass } },
+        });
+
+        adder(data.login);
+        toast.success(<span className="capitalize">login succesfylly</span>, {
+          position: "top-right",
+          transition: Zoom,
+          autoClose: 1500,
+        });
+
+        setemail("");
+        setpass("");
+
+        setconfrim("");
+        router.push("/main");
       }
-    } catch (err) {}
+    } catch (err) {
+      console.log(error?.message);
+    }
   };
 
   return (
@@ -96,7 +141,7 @@ export default function login() {
         </div>
 
         <button
-          onClick={() => adder({ name: "kina", email: "kia" })}
+          onClick={submit}
           className="capitalize hover:bg-blue-800 duration-500 hover:shadow-md bg-blue-600 text-white rounded-md py-2  "
           type="submit"
         >
@@ -105,12 +150,12 @@ export default function login() {
         <div className="flex lg:flex-row flex-col gap-y-3 gap-x-2  justify-center items-center">
           <h1 className="capitalize font-semibold">dont you have account?!</h1>
           <FaAngleRight className="hidden lg:block "></FaAngleRight>
-          <button
-            onClick={() => remove()}
+          <Link
+            href="/signup"
             className="hover:bg-blue-800 hover:shadow-md duration-500 capitalize px-6 py-2 bg-blue-600 text-white rounded-md"
           >
             sign up
-          </button>
+          </Link>
         </div>
       </div>
       ;

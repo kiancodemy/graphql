@@ -1,6 +1,6 @@
 import express from "express";
 import { Transaction } from "./models/transaction.js";
-import cookieparser from "cookie-parser";
+import cookieParser from "cookie-parser";
 import { ApolloServer } from "@apollo/server";
 import { User } from "./models/usermodel.js";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
@@ -17,6 +17,7 @@ dotenv.config();
 import cors from "cors";
 
 const app = express();
+
 connecter();
 const httpServer = http.createServer(app);
 const server = new ApolloServer({
@@ -26,11 +27,16 @@ const server = new ApolloServer({
   plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 });
 await server.start();
+
 app.use(
   "/graphql",
-  cors({ origin: "http://localhost:3000", credentials: "true" }),
+
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  }),
   express.json(),
-  cookieparser(),
+  cookieParser(),
 
   expressMiddleware(server, {
     context: async ({ req, res }) => ({
@@ -40,13 +46,14 @@ app.use(
         LoginVerify(req, res);
       },
 
-      setter: (token) =>
+      setter: (token) => {
         res.cookie("jwt", token, {
           httpOnly: true,
           maxAge: 700 * 365 * 24 * 60 * 60 * 1000,
           sameSite: "strict",
           secure: process.env.NODE_ENV !== "development",
-        }),
+        });
+      },
 
       outer: () => {
         res.cookie("jwt", "");
