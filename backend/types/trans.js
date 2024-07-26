@@ -5,24 +5,24 @@ export const transtypeDefs = `#graphql
     description: String!
     paymentType: String!
     category: String!
-    amount: Float!
+    amount: Float
     location: String!
     date: String!
   }
 
   type Query {
-    getTransactions: [Transaction]
+    getTransactions(id: ID!): [Transaction]
     getTransactionById(id: ID!): Transaction
-    show:String
+   
   }
 
   input TransactionInput {
-    userId: String!
-    description: String!
+    userId:ID!
+    description: String
     paymentType: String!
     category: String!
-    amount: Float!
-    location: String!
+    amount: Float
+    location: String
     date: String!
   }
 

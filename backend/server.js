@@ -8,6 +8,7 @@ import { connecter } from "./connect/connect.js";
 import dotenv from "dotenv";
 import { LoginVerify } from "./function/verify.js";
 
+import jwt from "jsonwebtoken";
 import mergedTypeDefs from "./types/imdex.js";
 import mergedResolvers from "./resolvers/index.js";
 import { expressMiddleware } from "@apollo/server/express4";
@@ -43,9 +44,8 @@ app.use(
       User: User,
       Transaction: Transaction,
       verfiy: async () => {
-        LoginVerify(req, res);
+        return await LoginVerify(req);
       },
-
       setter: (token) => {
         res.cookie("jwt", token, {
           httpOnly: true,

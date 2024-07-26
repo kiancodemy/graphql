@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
-import { gql, useMutation } from "@apollo/client";
-
+import { useMutation } from "@apollo/client";
+import { logins } from "@/lib/mutation";
 import { FaAngleRight } from "react-icons/fa";
 import { useState } from "react";
 import { useBearStore } from "@/lib/store";
@@ -19,17 +19,24 @@ export default function login() {
   const adder = useBearStore((state) => state.adduser);
   const router = useRouter();
   protect();
-  const login = gql`
-    mutation log($info: loging!) {
-      login(input: $info) {
-        _id
-        name
-        email
-      }
-    }
-  `;
-  const [logedin, { data, error }] = useMutation(login);
 
+  const [logedin, { data, error, loading }] = useMutation(logins);
+
+  useEffect(() => {
+    const keyDownHandler = (e: any) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+
+        submit();
+      }
+    };
+
+    document.addEventListener("keydown", keyDownHandler);
+
+    return () => {
+      document.removeEventListener("keydown", keyDownHandler);
+    };
+  });
   useEffect(() => {
     if (error) {
       toast.error(<span className="capitalize">{error.message}</span>, {
@@ -100,7 +107,7 @@ export default function login() {
   };
 
   return (
-    <div className="flex bg-black min-h-[100vh] flex-col justify-center">
+    <div className="flex  min-h-[100vh] flex-col justify-center">
       <div className="container mx-auto bg-[#eee]  rounded-m px-5 rounded-md py-6 gap-y-6 lg:max-w-[400px]  max-w-[340px] flex flex-col">
         <h1 className="capitalize text-2xl font-semibold  text-center lg:text-4xl">
           log in
@@ -142,6 +149,7 @@ export default function login() {
 
         <button
           onClick={submit}
+          disabled={loading}
           className="capitalize hover:bg-blue-800 duration-500 hover:shadow-md bg-blue-600 text-white rounded-md py-2  "
           type="submit"
         >

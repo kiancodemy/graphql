@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { User } from "../models/usermodel.js";
 
-export async function LoginVerify(req, res, next) {
+export async function LoginVerify(req) {
   const token = req.cookies.jwt || "";
 
   try {
@@ -9,9 +9,14 @@ export async function LoginVerify(req, res, next) {
       throw new Error("you are not login");
     }
 
-    const user = jwt.verify(token, process.env.SECRET);
+    const users = await jwt.verify(token, process.env.SECRET);
 
-    req.user = await User.findById(user.id);
+    const { _id } = await User.findById(users.id);
+    if (!_id) {
+      throw new Error("you are not login");
+    } else {
+      return _id;
+    }
   } catch (err) {
     throw new Error(err.message);
   }

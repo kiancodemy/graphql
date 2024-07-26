@@ -1,16 +1,14 @@
 import { Transaction } from "../models/transaction.js";
 export const transresolvers = {
   Query: {
-    getTransactions: async () => {
+    getTransactions: async (_, args, contextValue) => {
       try {
-        return await Transaction.find();
+        return await Transaction.find({ userId: args.id });
       } catch (error) {
         throw new Error("Error fetching transactions");
       }
     },
-    show: () => {
-      return "kian";
-    },
+
     getTransactionById: async (_, { id }) => {
       try {
         return await Transaction.findById(id);
@@ -20,12 +18,15 @@ export const transresolvers = {
     },
   },
   Mutation: {
-    addTransaction: async (_, { input }) => {
+    addTransaction: async (_, { input }, contextValue) => {
       try {
+        await contextValue.verfiy();
+
         const create = await Transaction.create(input);
+
         return create;
-      } catch (error) {
-        throw new Error("Error adding transaction");
+      } catch (err) {
+        throw new Error(err.message);
       }
     },
     updateTransaction: async (_, { id, input }) => {

@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 export const userresolvers = {
+  
   Mutation: {
     signup: async (_, { input }, contextValue) => {
       try {

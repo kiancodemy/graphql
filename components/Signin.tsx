@@ -4,17 +4,9 @@ import { useState } from "react";
 import { toast, Zoom } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { protect } from "@/lib/functions/protect";
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { useRouter } from "next/navigation";
-const signer = gql`
-  mutation Signup($info: signing!) {
-    signup(input: $info) {
-      _id
-      name
-      email
-    }
-  }
-`;
+import { signer } from "@/lib/mutation";
 export default function signin() {
   const [name, setname] = useState<string>("");
   const [email, setemail] = useState<string>("");
@@ -24,7 +16,7 @@ export default function signin() {
 
   const router = useRouter();
 
-  const [add, { data }] = useMutation(signer);
+  const [add, { data, loading }] = useMutation(signer);
   protect();
 
   const submit = async () => {
@@ -92,7 +84,7 @@ export default function signin() {
     }
   };
   return (
-    <div className="flex bg-black min-h-[100vh] flex-col justify-center">
+    <div className="flex  min-h-[100vh] flex-col justify-center">
       <div className="container mx-auto bg-[#eee]  rounded-m px-5 rounded-md py-6 gap-y-6 lg:max-w-[400px]  max-w-[340px] flex flex-col">
         <h1 className="capitalize text-2xl text-center font-semibold lg:text-4xl">
           sign up
@@ -168,6 +160,7 @@ export default function signin() {
           </div>
         </div>
         <button
+          disabled={loading}
           onClick={submit}
           className="capitalize hover:bg-blue-800 duration-500 hover:shadow-md bg-blue-600 text-white rounded-md py-2  "
           type="submit"

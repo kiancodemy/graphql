@@ -15,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="min-h-[100vh] bg-black flex flex-col">
+      <body className="min-h-[100vh] bg-back flex flex-col">
         <ApolloWrapper>
           <ToastProvider>{children}</ToastProvider>
         </ApolloWrapper>

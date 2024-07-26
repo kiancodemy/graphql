@@ -8,6 +8,7 @@ type User{
     name:String!
     email:String!
     gender:String!
+   
     
 }
 input signing{
