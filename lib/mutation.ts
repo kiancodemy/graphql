@@ -52,15 +52,8 @@ export const updateTransaction = gql`
 `;
 export const deleteTransaction = gql`
   mutation delete($id: ID!) {
-    deleteTransaction(id: id) {
+    deleteTransaction(id: $id) {
       _id
-      userId
-      description
-      paymentType
-      category
-      amount
-      location
-      date
     }
   }
 `;

@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import { addTransactions } from "@/lib/mutation";
 import { useMutation } from "@apollo/client";
 import { toast, Zoom } from "react-toastify";
-import { useBearStore } from "@/lib/store";
-
+import { useBearStore } from "@/lib/zustand/store";
+import { getTransaction } from "@/lib/query";
 export default function content() {
   const [description, setdescription] = useState("");
   const [paymentType, setpaymentType] = useState("card");
@@ -13,7 +13,7 @@ export default function content() {
   const [location, setlocation] = useState("");
   const [date, setdate] = useState("");
   const [creat, { error, loading }] = useMutation(addTransactions);
-  const bears = useBearStore((state) => state.bears);
+  const bears = useBearStore((state: any) => state.bears);
   useEffect(() => {
     if (error) {
       toast.error(<span className="capitalize">{error?.message}</span>, {
@@ -36,8 +36,8 @@ export default function content() {
           }
         );
         setdescription("");
-        setpaymentType("");
-        setcategory("");
+        setpaymentType("card");
+        setcategory("saving");
         setamount(0);
         setlocation("");
         setdate("");
@@ -57,6 +57,7 @@ export default function content() {
             date,
           },
         },
+        refetchQueries: [{ query: getTransaction }],
       });
       toast.success(
         <span className="capitalize">transaction added successfully</span>,
@@ -67,8 +68,8 @@ export default function content() {
         }
       );
       setdescription("");
-      setpaymentType("");
-      setcategory("");
+      setpaymentType("card");
+      setcategory("saving");
       setamount(0);
       setlocation("");
       setdate("");

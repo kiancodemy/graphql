@@ -3,7 +3,10 @@ export const transresolvers = {
   Query: {
     getTransactions: async (_, args, contextValue) => {
       try {
-        return await Transaction.find({ userId: args.id });
+        const id = await contextValue.verfiy();
+        const all = await Transaction.find({ userId: id });
+
+        return all;
       } catch (error) {
         throw new Error("Error fetching transactions");
       }

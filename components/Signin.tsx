@@ -3,7 +3,7 @@ import React from "react";
 import { useState } from "react";
 import { toast, Zoom } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { protect } from "@/lib/functions/protect";
+import { protect } from "@/lib/functions/Loginprotect";
 import { useMutation } from "@apollo/client";
 import { useRouter } from "next/navigation";
 import { signer } from "@/lib/mutation";

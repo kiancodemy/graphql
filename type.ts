@@ -8,9 +8,16 @@ export interface BearState {
   adduser: (user: User) => void;
   removeuser: () => void;
 }
-export interface SignupInput {
-  name: String!;
-  email: String!;
-  password: String!;
-  gender: String!;
+export interface ID {
+  id: String;
+}
+export interface ITEM {
+  _id: String;
+  userId: String;
+  description: String | any;
+  paymentType: String;
+  category: String;
+  amount: Number;
+  location: String | any;
+  date: String;
 }

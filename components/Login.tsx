@@ -4,19 +4,19 @@ import { useMutation } from "@apollo/client";
 import { logins } from "@/lib/mutation";
 import { FaAngleRight } from "react-icons/fa";
 import { useState } from "react";
-import { useBearStore } from "@/lib/store";
+import { useBearStore } from "@/lib/zustand/store";
 import { toast, Zoom } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { protect } from "@/lib/functions/protect";
-
+import { protect } from "@/lib/functions/Loginprotect";
+import useStore from "@/lib/zustand/usestore";
 export default function login() {
   const [email, setemail] = useState("");
   const [pass, setpass] = useState("");
   const [confrim, setconfrim] = useState("");
 
-  const adder = useBearStore((state) => state.adduser);
+  const adder = useBearStore((state: any) => state.adduser);
   const router = useRouter();
   protect();
 
@@ -87,8 +87,9 @@ export default function login() {
         const { data } = await logedin({
           variables: { info: { email, password: pass } },
         });
+        console.log(data);
 
-        adder(data.login);
+        await adder(data.login);
         toast.success(<span className="capitalize">login succesfylly</span>, {
           position: "top-right",
           transition: Zoom,

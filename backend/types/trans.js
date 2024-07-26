@@ -2,16 +2,16 @@ export const transtypeDefs = `#graphql
   type Transaction {
     _id: ID!
     userId: String!
-    description: String!
+    description: String
     paymentType: String!
     category: String!
     amount: Float
-    location: String!
+    location: String
     date: String!
   }
 
   type Query {
-    getTransactions(id: ID!): [Transaction]
+    getTransactions: [Transaction]
     getTransactionById(id: ID!): Transaction
    
   }

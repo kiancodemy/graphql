@@ -5,12 +5,13 @@ import { FiLogOut } from "react-icons/fi";
 
 import { useRouter } from "next/navigation";
 import { useMutation } from "@apollo/client";
-import { useBearStore } from "@/lib/store";
-
+import { useBearStore } from "@/lib/zustand/store";
+import useStore from "@/lib/zustand/usestore";
 import { logout } from "@/lib/mutation";
 export default function Header() {
-  const removeinfo = useBearStore((state) => state.removeuser);
-  const bears = useBearStore((state) => state.bears);
+  const removeinfo = useBearStore((state: any) => state.removeuser);
+
+  const bears = useStore(useBearStore, (state: any) => state.bears);
   const [logedout] = useMutation(logout);
   const router = useRouter();
 

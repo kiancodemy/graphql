@@ -14,8 +14,8 @@ export const getTransactonById = gql`
   }
 `;
 export const getTransaction = gql`
-  query get($id: ID!) {
-    getTransactions(id: id) {
+  query {
+    getTransactions {
       _id
       userId
       description
