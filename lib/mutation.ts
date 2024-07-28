@@ -38,7 +38,7 @@ export const addTransactions = gql`
 `;
 export const updateTransaction = gql`
   mutation update($id: ID!, $input: TransactionInput!) {
-    updateTransaction(id: id, input: input) {
+    updateTransaction(id: $id, input: $input) {
       _id
       userId
       description

@@ -15,9 +15,11 @@ export default function signin() {
   const [gender, setgender] = useState<string>("");
 
   const router = useRouter();
+  //graphlq sign in
 
   const [add, { data, loading }] = useMutation(signer);
   protect();
+  //submit function
 
   const submit = async () => {
     try {

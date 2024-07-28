@@ -2,18 +2,27 @@
 import React, { useEffect, useState } from "react";
 import { addTransactions } from "@/lib/mutation";
 import { useMutation } from "@apollo/client";
+import Mychart from "./Mychart";
 import { toast, Zoom } from "react-toastify";
 import { useBearStore } from "@/lib/zustand/store";
 import { getTransaction } from "@/lib/query";
+import useStore from "@/lib/zustand/usestore";
+
 export default function content() {
   const [description, setdescription] = useState("");
   const [paymentType, setpaymentType] = useState("card");
   const [category, setcategory] = useState("saving");
-  const [amount, setamount] = useState(0);
+  const [amount, setamount] = useState<Number | String>("");
   const [location, setlocation] = useState("");
   const [date, setdate] = useState("");
+
+  //graphlq add transaction
   const [creat, { error, loading }] = useMutation(addTransactions);
-  const bears = useBearStore((state: any) => state.bears);
+  const bears = useStore(useBearStore, (state: any) => state.bears);
+  //chart info
+  const chart = useStore(useBearStore, (state: any) => state.chart);
+  //erro handler
+
   useEffect(() => {
     if (error) {
       toast.error(<span className="capitalize">{error?.message}</span>, {
@@ -23,6 +32,7 @@ export default function content() {
       });
     }
   }, [error]);
+  //submit hamdeler//
 
   const submit = async () => {
     try {
@@ -38,7 +48,7 @@ export default function content() {
         setdescription("");
         setpaymentType("card");
         setcategory("saving");
-        setamount(0);
+        setamount("");
         setlocation("");
         setdate("");
 
@@ -70,14 +80,25 @@ export default function content() {
       setdescription("");
       setpaymentType("card");
       setcategory("saving");
-      setamount(0);
+      setamount("");
       setlocation("");
       setdate("");
+      const element: any = document.getElementById("kian");
+      element.scrollIntoView({ behavior: "smooth" });
     } catch (err) {}
   };
+
   return (
-    <div className="p-4 gap-x-6 flex-col lg:flex-row gap-y-10 flex container my-4 lg:max-w-4xl mx-auto">
-      <h1 className="basis-[45%]  bg-green-500">it is me</h1>
+    <div
+      className={`p-4 gap-x-6 ${
+        chart?.length === 0 && "justify-center"
+      } flex-col lg:flex-row gap-y-10 flex container my-4 lg:max-w-4xl mx-auto`}
+    >
+      {chart?.length > 0 && (
+        <div className="basis-[45%] ">
+          <Mychart></Mychart>
+        </div>
+      )}
       <h1 className="basis-[55%] flex flex-col gap-y-6">
         <div className="flex text-white flex-col gap-y-2">
           <h1 className="capitalize">transaction</h1>
@@ -97,7 +118,7 @@ export default function content() {
               className="rounded-sm focus:outline-none p-1 text-black bg-[#ddd]"
             >
               <option value="card">card</option>
-              <option value="cash">value</option>
+              <option value="cash">cash</option>
             </select>
           </div>
           <div className="flex flex-col gap-y-2">

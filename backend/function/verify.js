@@ -11,11 +11,12 @@ export async function LoginVerify(req) {
 
     const users = await jwt.verify(token, process.env.SECRET);
 
-    const { _id } = await User.findById(users.id);
-    if (!_id) {
+    const user = await User.findById(users.id);
+
+    if (!user._id) {
       throw new Error("you are not login");
     } else {
-      return _id;
+      return user;
     }
   } catch (err) {
     throw new Error(err.message);

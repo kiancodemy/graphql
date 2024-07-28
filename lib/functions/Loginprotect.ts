@@ -16,12 +16,4 @@ export const protect = () => {
   }, [bears]);
 };
 
-export const getit = () => {
-  const [a, b] = useState<any>();
-  useEffect(() => {
-    localStorage.getItem("info")
-      ? b(JSON.parse(localStorage.getItem("info") as string))
-      : b(null);
-  }, []);
-  return a;
-};
+

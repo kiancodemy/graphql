@@ -1,10 +1,15 @@
 import { Transaction } from "../models/transaction.js";
+import { User } from "../models/usermodel.js";
 export const transresolvers = {
   Query: {
     getTransactions: async (_, args, contextValue) => {
       try {
-        const id = await contextValue.verfiy();
-        const all = await Transaction.find({ userId: id });
+        const user = await contextValue.verfiy();
+        const hexodecimal = await user._id.toString();
+
+        const all = await Transaction.find({ userId: hexodecimal });
+
+       
 
         return all;
       } catch (error) {

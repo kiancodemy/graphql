@@ -9,11 +9,16 @@ import { useBearStore } from "@/lib/zustand/store";
 import useStore from "@/lib/zustand/usestore";
 import { logout } from "@/lib/mutation";
 export default function Header() {
+  //logout
   const removeinfo = useBearStore((state: any) => state.removeuser);
 
   const bears = useStore(useBearStore, (state: any) => state.bears);
+
+  //graphql logout function
   const [logedout] = useMutation(logout);
   const router = useRouter();
+
+  //main logout funvtion
 
   const logingout = () => {
     logedout();

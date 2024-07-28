@@ -8,8 +8,10 @@ export const useBearStore = create(
   persist(
     (set, get) => ({
       bears: 0,
+      chart: [],
       adduser: (users: User) => set({ bears: users }),
       removeuser: () => set({ bears: null }),
+      send: (charts: any) => set({ chart: charts }),
     }),
     {
       name: "food-storage",

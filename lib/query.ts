@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 export const getTransactonById = gql`
   query get($id: ID!) {
-    getTransactionById(id: id) {
+    getTransactionById(id: $id) {
       _id
       userId
       description

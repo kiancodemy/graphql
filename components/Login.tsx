@@ -10,17 +10,22 @@ import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { protect } from "@/lib/functions/Loginprotect";
-import useStore from "@/lib/zustand/usestore";
+import { getTransaction } from "@/lib/query";
 export default function login() {
   const [email, setemail] = useState("");
   const [pass, setpass] = useState("");
   const [confrim, setconfrim] = useState("");
+  //add user zustand//
 
   const adder = useBearStore((state: any) => state.adduser);
   const router = useRouter();
   protect();
 
+  //graphql login setup
+
   const [logedin, { data, error, loading }] = useMutation(logins);
+
+  //submit form by enter keypress
 
   useEffect(() => {
     const keyDownHandler = (e: any) => {
@@ -37,6 +42,7 @@ export default function login() {
       document.removeEventListener("keydown", keyDownHandler);
     };
   });
+  //erro handler
   useEffect(() => {
     if (error) {
       toast.error(<span className="capitalize">{error.message}</span>, {
@@ -47,7 +53,7 @@ export default function login() {
     }
   }, [error]);
 
-  //graphql setup
+  //submit function
 
   const submit = async () => {
     try {
@@ -86,6 +92,7 @@ export default function login() {
       } else {
         const { data } = await logedin({
           variables: { info: { email, password: pass } },
+          refetchQueries: [{ query: getTransaction }],
         });
         console.log(data);
 
