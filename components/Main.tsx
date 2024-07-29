@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "./Header";
-import Content from "./content";
+import Content from "./Content";
 import History from "./History";
 
 export default function Main() {

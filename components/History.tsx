@@ -9,9 +9,7 @@ import { ITEM } from "@/type";
 
 import { useBearStore } from "@/lib/zustand/store";
 
-
 export default function History() {
-
   // graphql all transaction related to user//
   const { loading, data } = useQuery(getTransaction);
   const send = useBearStore((state: any) => state.send);
@@ -40,7 +38,7 @@ export default function History() {
     } else {
       send([]);
     }
-  }, [data]);
+  }, [send, data]);
 
   return (
     <div

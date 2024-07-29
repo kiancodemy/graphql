@@ -6,6 +6,7 @@ import ToastProvider from "./Toastify";
 export const metadata: Metadata = {
   title: "expense calculator",
   description: "you can calculate your exprenses",
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({

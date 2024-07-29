@@ -16,11 +16,11 @@ import { getTransactonById } from "@/lib/query";
 export default function Update({ id }: ID) {
   const router = useRouter();
   ///get data by id  bygraphql
-  const { data, loading, refetch } = useQuery(getTransactonById, {
+  const { data, loading } = useQuery(getTransactonById, {
     variables: { id: id },
   });
 
-  // default value of inputs
+  // set default value of inputs
   useEffect(() => {
     if (data?.getTransactionById?._id) {
       const all = data.getTransactionById;
@@ -31,7 +31,7 @@ export default function Update({ id }: ID) {
       setlocation(all.location);
       setdate(all.date);
     }
-  }, [data?.getTransactionById?._id]);
+  }, [data]);
 
   const [updater, { error }] = useMutation(updateTransaction);
 
@@ -148,6 +148,7 @@ export default function Update({ id }: ID) {
           />
           <button
             type="submit"
+            disabled={loading}
             onClick={submit}
             className="bg-blue-500 mt-3 rounded-md py-2 capitalize"
           >

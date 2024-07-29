@@ -3,11 +3,11 @@ import React from "react";
 import { useState } from "react";
 import { toast, Zoom } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { protect } from "@/lib/functions/Loginprotect";
+
 import { useMutation } from "@apollo/client";
 import { useRouter } from "next/navigation";
 import { signer } from "@/lib/mutation";
-export default function signin() {
+export default function Signin() {
   const [name, setname] = useState<string>("");
   const [email, setemail] = useState<string>("");
   const [pass, setpass] = useState<string>("");
@@ -18,7 +18,7 @@ export default function signin() {
   //graphlq sign in
 
   const [add, { data, loading }] = useMutation(signer);
-  protect();
+
   //submit function
 
   const submit = async () => {

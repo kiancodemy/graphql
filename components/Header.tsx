@@ -15,7 +15,7 @@ export default function Header() {
   const bears = useStore(useBearStore, (state: any) => state.bears);
 
   //graphql logout function
-  const [logedout] = useMutation(logout);
+  const [logedout, { loading }] = useMutation(logout);
   const router = useRouter();
 
   //main logout funvtion
@@ -40,7 +40,7 @@ export default function Header() {
           className="flex justify-center py-2 px-6 rounded-md duration-500  items-center hover:bg-blue-600 
 bg-blue-400 gap-x-3 text-white"
         >
-          <button className="capitalize" onClick={logingout}>
+          <button disabled={loading} className="capitalize" onClick={logingout}>
             log out
           </button>
           <FiLogOut></FiLogOut>

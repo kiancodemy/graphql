@@ -5,6 +5,7 @@ import { MdDeleteOutline } from "react-icons/md";
 import { deleteTransaction } from "@/lib/mutation";
 import { AiFillEdit } from "react-icons/ai";
 import { useEffect } from "react";
+import { ITEM } from "@/type";
 import { toast, Zoom } from "react-toastify";
 import { getTransaction } from "@/lib/query";
 /////
@@ -14,9 +15,9 @@ import { FaAddressCard } from "react-icons/fa6";
 import { MdOutlineDescription } from "react-icons/md";
 
 import Link from "next/link";
-export default function Item({ items }: any) {
-  //graphql delete//
-  const [data, { error }] = useMutation(deleteTransaction);
+export default function Item({ items }: { items: ITEM }) {
+  //graphql delete SET UP//
+  const [data, { error, loading }] = useMutation(deleteTransaction);
   //main delete function//
 
   const deleter = async () => {
@@ -45,9 +46,9 @@ export default function Item({ items }: any) {
     <div
       className={`${
         items.category === "saving"
-          ? "bg-green-500"
-          : items.category === "invest"
           ? "bg-[#6EACDA]"
+          : items.category === "invest"
+          ? "bg-[#FFB200]"
           : "bg-red-600"
       } p-4 capitalize flex  flex-col gap-y-3 rounded-md text-white`}
     >
@@ -55,6 +56,7 @@ export default function Item({ items }: any) {
         <h1 className="font-bold">{items.category}</h1>
         <div className="flex text-xl items-center font-semibold gap-x-3">
           <button
+            disabled={loading}
             onClick={deleter}
             className="cursor-pointer hover:shadow-md duration-300"
           >
@@ -71,7 +73,7 @@ export default function Item({ items }: any) {
       <div className="flex gap-x-3 items-center">
         <TbMoneybag></TbMoneybag>
         <h1>amount:</h1>
-        <h1>${items.amount}</h1>
+        <h1>{`${items.amount}`}</h1>
       </div>
       <div className="flex gap-x-3 items-center">
         <MdOutlineDescription></MdOutlineDescription>

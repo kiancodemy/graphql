@@ -9,9 +9,10 @@ import { toast, Zoom } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { protect } from "@/lib/functions/Loginprotect";
+import { useProtec } from "@/lib/functions/Loginprotect";
+
 import { getTransaction } from "@/lib/query";
-export default function login() {
+export default function Login() {
   const [email, setemail] = useState("");
   const [pass, setpass] = useState("");
   const [confrim, setconfrim] = useState("");
@@ -19,11 +20,10 @@ export default function login() {
 
   const adder = useBearStore((state: any) => state.adduser);
   const router = useRouter();
-  protect();
 
   //graphql login setup
 
-  const [logedin, { data, error, loading }] = useMutation(logins);
+  const [logedin, { error, loading }] = useMutation(logins);
 
   //submit form by enter keypress
 
@@ -113,6 +113,9 @@ export default function login() {
       console.log(error?.message);
     }
   };
+
+  //function for avoiding loging duplication//
+  useProtec();
 
   return (
     <div className="flex  min-h-[100vh] flex-col justify-center">

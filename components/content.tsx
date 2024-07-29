@@ -8,11 +8,11 @@ import { useBearStore } from "@/lib/zustand/store";
 import { getTransaction } from "@/lib/query";
 import useStore from "@/lib/zustand/usestore";
 
-export default function content() {
+export default function Content() {
   const [description, setdescription] = useState("");
   const [paymentType, setpaymentType] = useState("card");
   const [category, setcategory] = useState("saving");
-  const [amount, setamount] = useState<Number | String>("");
+  const [amount, setamount] = useState<any>("");
   const [location, setlocation] = useState("");
   const [date, setdate] = useState("");
 
