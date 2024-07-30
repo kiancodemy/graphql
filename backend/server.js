@@ -33,7 +33,7 @@ app.use(
   "/graphql",
 
   cors({
-    origin:process.env.FRONT,
+    origin: process.env.FRONT,
     credentials: true,
   }),
   express.json(),
@@ -50,7 +50,7 @@ app.use(
         res.cookie("jwt", token, {
           httpOnly: true,
           maxAge: 700 * 365 * 24 * 60 * 60 * 1000,
-          sameSite: "strict",
+          SameSite: "None",
           secure: process.env.NODE_ENV !== "development",
         });
       },
