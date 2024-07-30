@@ -4,12 +4,10 @@ export const transresolvers = {
   Query: {
     getTransactions: async (_, args, contextValue) => {
       try {
-        const user = await contextValue.verfiy();
-        const hexodecimal = await user._id.toString();
+        //const user = await contextValue.verfiy();
+        //const hexodecimal = await user._id.toString();
 
-        const all = await Transaction.find({ userId: hexodecimal });
-
-       
+        const all = await Transaction.find(/*{ userId: hexodecimal }*/);
 
         return all;
       } catch (error) {
