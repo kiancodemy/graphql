@@ -8,7 +8,7 @@ import { useBearStore } from "@/lib/zustand/store";
 import { getTransaction } from "@/lib/query";
 import useStore from "@/lib/zustand/usestore";
 
-export default function Content() {
+export default function MyContent() {
   const [description, setdescription] = useState("");
   const [paymentType, setpaymentType] = useState("card");
   const [category, setcategory] = useState("saving");
