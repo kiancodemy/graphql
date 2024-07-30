@@ -33,7 +33,7 @@ app.use(
   "/graphql",
 
   cors({
-    origin: "http://localhost:3000",
+    origin:process.env.FRONT,
     credentials: true,
   }),
   express.json(),
