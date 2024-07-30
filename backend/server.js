@@ -50,7 +50,7 @@ app.use(
         res.cookie("jwt", token, {
           httpOnly: true,
           maxAge: 700 * 365 * 24 * 60 * 60 * 1000,
-          SameSite: "None",
+          sameSite: "None",
           secure: process.env.NODE_ENV !== "development",
         });
       },
