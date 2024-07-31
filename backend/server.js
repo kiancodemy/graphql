@@ -56,7 +56,9 @@ app.use(
       },
 
       outer: () => {
-        res.cookie("jwt", "");
+        res.cookie("jwt", "", {
+          expires: new Date(0),
+        });
       },
     }),
   })
