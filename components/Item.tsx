@@ -8,19 +8,16 @@ import { useEffect } from "react";
 import { ITEM } from "@/type";
 import { toast, Zoom } from "react-toastify";
 import { getTransaction } from "@/lib/query";
-/////
 import { TbMoneybag } from "react-icons/tb";
 import { FaLocationPin } from "react-icons/fa6";
 import { FaAddressCard } from "react-icons/fa6";
 import { MdOutlineDescription } from "react-icons/md";
-
 import Link from "next/link";
-export default function Item({ items }: { items: ITEM }) {
-  //graphql delete SET UP//
-  const [data, { error, loading }] = useMutation(deleteTransaction);
-  //main delete function//
 
-  const deleter = async () => {
+export default function Item({ items }: { items: ITEM }) {
+  const [data, { error, loading }] = useMutation(deleteTransaction);
+
+  const deletItem = async () => {
     await data({
       variables: { id: items._id },
       refetchQueries: [{ query: getTransaction }],
@@ -31,7 +28,7 @@ export default function Item({ items }: { items: ITEM }) {
       autoClose: 1000,
     });
   };
-  //erro handler
+  //Erro handler
   useEffect(() => {
     if (error) {
       toast.error(<span className="capitalize">{error.message}</span>, {
@@ -57,7 +54,7 @@ export default function Item({ items }: { items: ITEM }) {
         <div className="flex text-xl items-center font-semibold gap-x-3">
           <button
             disabled={loading}
-            onClick={deleter}
+            onClick={deletItem}
             className="cursor-pointer hover:shadow-md duration-300"
           >
             <MdDeleteOutline></MdDeleteOutline>

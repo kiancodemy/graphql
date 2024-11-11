@@ -9,22 +9,18 @@ import { useBearStore } from "@/lib/zustand/store";
 import useStore from "@/lib/zustand/usestore";
 import { logout } from "@/lib/mutation";
 export default function Header() {
-  //logout
-  const removeinfo = useBearStore((state: any) => state.removeuser);
+  const Router = useRouter();
+  const removeInfo = useBearStore((state: any) => state.removeuser);
 
   const bears = useStore(useBearStore, (state: any) => state.bears);
 
-  //graphql logout function
-  const [logedout, { loading }] = useMutation(logout);
-  const router = useRouter();
+  const [logOut, { loading }] = useMutation(logout);
 
-  //main logout funvtion
+  const logOutfunction = () => {
+    logOut();
 
-  const logingout = () => {
-    logedout();
-
-    removeinfo();
-    router.push("/");
+    removeInfo();
+    Router.push("/");
   };
 
   return (
@@ -40,7 +36,11 @@ export default function Header() {
           className="flex justify-center py-2 px-6 rounded-md duration-500  items-center hover:bg-blue-600 
 bg-blue-400 gap-x-3 text-white"
         >
-          <button disabled={loading} className="capitalize" onClick={logingout}>
+          <button
+            disabled={loading}
+            className="capitalize"
+            onClick={logOutfunction}
+          >
             log out
           </button>
           <FiLogOut></FiLogOut>

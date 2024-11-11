@@ -41,9 +41,8 @@ export default function Update({ id }: ID) {
   const [amount, setamount] = useState<Number | String | any>("");
   const [location, setlocation] = useState("");
   const [date, setdate] = useState("");
-  ///submit function
 
-  const submit = async () => {
+  const submitForm = async () => {
     console.log(description);
     if (!paymentType || !category || !amount || !date) {
       toast.error(<span className="capitalize">fill all empty inputs!</span>, {
@@ -86,6 +85,8 @@ export default function Update({ id }: ID) {
       return true;
     }
   };
+
+  ///error handler//
   useEffect(() => {
     if (error) {
       toast.error(<span className="capitalize">{error.message}</span>, {
@@ -95,6 +96,7 @@ export default function Update({ id }: ID) {
       });
     }
   }, [error]);
+
   return (
     <div className="min-h-screen flex justify-center items-center">
       {!loading && (
@@ -149,7 +151,7 @@ export default function Update({ id }: ID) {
           <button
             type="submit"
             disabled={loading}
-            onClick={submit}
+            onClick={submitForm}
             className="bg-blue-500 mt-3 rounded-md py-2 capitalize"
           >
             update

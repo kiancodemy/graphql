@@ -13,15 +13,11 @@ export default function Signin() {
   const [pass, setpass] = useState<string>("");
   const [confrim, setconfrim] = useState<string>("");
   const [gender, setgender] = useState<string>("");
-
   const router = useRouter();
-  //graphlq sign in
 
   const [add, { data, loading }] = useMutation(signer);
 
-  //submit function
-
-  const submit = async () => {
+  const submitForm = async () => {
     try {
       if (!name || !email || !pass || !confrim || !gender) {
         toast.error(
@@ -32,12 +28,6 @@ export default function Signin() {
             autoClose: 1500,
           }
         );
-
-        setname("");
-        setemail("");
-        setpass("");
-        setconfrim("");
-        setgender("");
       } else if (confrim !== pass) {
         toast.error(
           <span className="capitalize">
@@ -49,11 +39,6 @@ export default function Signin() {
             autoClose: 1500,
           }
         );
-        setname("");
-        setemail("");
-        setpass("");
-        setgender("");
-        setconfrim("");
       } else {
         await add({
           variables: { info: { name, email, password: pass, gender } },
@@ -69,7 +54,6 @@ export default function Signin() {
         setpass("");
         setgender("");
         setconfrim("");
-        console.log(data);
         router.push("/login");
       }
     } catch (err) {
@@ -78,11 +62,6 @@ export default function Signin() {
         transition: Zoom,
         autoClose: 1500,
       });
-      setname("");
-      setemail("");
-      setpass("");
-      setgender("");
-      setconfrim("");
     }
   };
   return (
@@ -163,7 +142,7 @@ export default function Signin() {
         </div>
         <button
           disabled={loading}
-          onClick={submit}
+          onClick={submitForm}
           className="capitalize hover:bg-blue-800 duration-500 hover:shadow-md bg-blue-600 text-white rounded-md py-2  "
           type="submit"
         >
