@@ -29,7 +29,7 @@ export default function Login() {
       if (e.key === "Enter") {
         e.preventDefault();
 
-        submit();
+        submitForm();
       }
     };
 
