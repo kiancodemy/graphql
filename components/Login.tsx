@@ -9,23 +9,20 @@ import { toast, Zoom } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useProtec } from "@/lib/functions/Loginprotect";
 
 import { getTransaction } from "@/lib/query";
+import { useProtec } from "@/lib/functions/Loginprotect";
 export default function Login() {
+  const router = useRouter();
   const [email, setemail] = useState("");
   const [pass, setpass] = useState("");
   const [confrim, setconfrim] = useState("");
-  //add user zustand//
 
-  const adder = useBearStore((state: any) => state.adduser);
-  const router = useRouter();
-
-  //graphql login setup
+  const addUser = useBearStore((state: any) => state.adduser);
 
   const [logedin, { error, loading }] = useMutation(logins);
 
-  //submit form by enter keypress
+  //submit form by enter keypress//
 
   useEffect(() => {
     const keyDownHandler = (e: any) => {
@@ -42,7 +39,8 @@ export default function Login() {
       document.removeEventListener("keydown", keyDownHandler);
     };
   });
-  //erro handler
+
+  //erro handler//
   useEffect(() => {
     if (error) {
       toast.error(<span className="capitalize">{error.message}</span>, {
@@ -53,9 +51,7 @@ export default function Login() {
     }
   }, [error]);
 
-  //submit function
-
-  const submit = async () => {
+  const submitForm = async () => {
     try {
       if (!email || !pass || !confrim) {
         toast.error(
@@ -94,9 +90,8 @@ export default function Login() {
           variables: { info: { email, password: pass } },
           refetchQueries: [{ query: getTransaction }],
         });
-        console.log(data);
 
-        await adder(data.login);
+        await addUser(data.login);
         toast.success(<span className="capitalize">login succesfylly</span>, {
           position: "top-right",
           transition: Zoom,
@@ -159,7 +154,7 @@ export default function Login() {
         </div>
 
         <button
-          onClick={submit}
+          onClick={submitForm}
           disabled={loading}
           className="capitalize hover:bg-blue-800 duration-500 hover:shadow-md bg-blue-600 text-white rounded-md py-2  "
           type="submit"
@@ -177,7 +172,6 @@ export default function Login() {
           </Link>
         </div>
       </div>
-      ;
     </div>
   );
 }

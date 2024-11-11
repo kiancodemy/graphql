@@ -32,9 +32,9 @@ export default function MyContent() {
       });
     }
   }, [error]);
-  //submit hamdeler//
 
-  const submit = async () => {
+
+  const submitFrom = async () => {
     try {
       if (!paymentType || !category || !amount || !date) {
         toast.error(
@@ -165,7 +165,7 @@ export default function MyContent() {
         </div>
         <button
           type="submit"
-          onClick={submit}
+          onClick={submitFrom}
           disabled={loading}
           className="capitalize hover:bg-pink-600 duration-500 bg-pink-800 py-2 text-white rounded-md"
         >
